@@ -5,6 +5,7 @@ public class Generate : MonoBehaviour
 {
     public List<GameObject> rocks;
     public Transform ParentRocks;
+    int score = 0;
 
     void Start()
     {
@@ -18,5 +19,14 @@ public class Generate : MonoBehaviour
 
         var newRock = Instantiate(rock, new Vector3(45, 0, 0), Quaternion.identity) as GameObject;
         newRock.transform.parent = ParentRocks;
+
+        score++;
+    }
+
+    // Update is called once per frame
+    void OnGUI()
+    {
+        GUI.color = Color.black;
+        GUILayout.Label(" Score: " + score.ToString());
     }
 }
