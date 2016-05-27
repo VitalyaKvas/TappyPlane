@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
             Jump();
 
         // Die by being off screen
-        var c = Camera.allCameras;
         Vector2 screenPosition = Camera.allCameras.First().WorldToScreenPoint(transform.position);
         if (screenPosition.y > Screen.height || screenPosition.y < 0)
         {
