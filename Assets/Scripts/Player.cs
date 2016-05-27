@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -10,9 +11,29 @@ public class Player : MonoBehaviour
         GetComponent<Rigidbody2D>().AddForce(jumpForce);
 	}
 
-	void Update ()
-	{
-		if (Input.GetKeyUp ("space"))
-			Jump ();
-	}
+    // Die by collision
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        Die();
+    }
+
+    void Die()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+        // SceneManager.LoadScene("Scenes/Level", LoadSceneMode.Single)
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyUp("space"))
+            Jump();
+
+        // Die by being off screen
+        var c = Camera.allCameras;
+        Vector2 screenPosition = Camera.allCameras.First().WorldToScreenPoint(transform.position);
+        if (screenPosition.y > Screen.height || screenPosition.y < 0)
+        {
+            Die();
+        }
+    }
 }
