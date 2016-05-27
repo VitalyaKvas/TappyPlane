@@ -5,11 +5,15 @@ public class Generate : MonoBehaviour
 {
     public List<GameObject> rocks;
     public Transform ParentRocks;
-    int score = 0;
+    public Vector3 PossitionRocks = new Vector3(45, 0, 0);
+    public float StartRepeating = 2.5f;
+    public float RateRepeating = 2.5f;
+    public bool CountingScore;
+    public int Score = 0;
 
     void Start()
     {
-        InvokeRepeating("GenerateObstacles", 2.5f, 2.5f);
+        InvokeRepeating("GenerateObstacles", StartRepeating, RateRepeating);
     }
 
     void GenerateObstacles()
@@ -17,16 +21,20 @@ public class Generate : MonoBehaviour
         var randomIndex = Random.Range(0, rocks.Count);
         var rock = rocks[randomIndex];
 
-        var newRock = Instantiate(rock, new Vector3(45, 0, 0), Quaternion.identity) as GameObject;
+        var newRock = Instantiate(rock, PossitionRocks, Quaternion.identity) as GameObject;
         newRock.transform.parent = ParentRocks;
+        newRock.transform.localPosition = PossitionRocks;
 
-        score++;
+        if (CountingScore) Score++;
     }
 
     // Update is called once per frame
     void OnGUI()
     {
-        GUI.color = Color.black;
-        GUILayout.Label(" Score: " + score.ToString());
+        if (CountingScore)
+        {
+            GUI.color = Color.black;
+            GUILayout.Label(" Score: " + Score.ToString());
+        }
     }
 }
